@@ -1,0 +1,23 @@
+// Temporary file - Load More Button component
+// This code should be inserted after line 304 in LandingPage.tsx
+                    
+                    {/* Load More Button */}
+                    {!showMorePastEvents && allPastEvents.length > 3 && (
+                        <div style={{ textAlign: 'center', marginTop: '40px' }}>
+                            <button 
+                                onClick={() => setShowMorePastEvents(true)}
+                                style={{
+                                    padding: '12px 32px',
+                                    background: 'white',
+                                    border: '1px solid #DADCE0',
+                                    borderRadius: '4px',
+                                    color: '#1A73E8',
+                                    fontSize: '14px',
+                                    fontWeight: 500,
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                Load more
+                            </button>
+                        </div>
+                    )}

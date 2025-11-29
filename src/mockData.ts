@@ -1,5 +1,27 @@
 // Mock data for JKUBS Society Management System
-import type { User, Event, Payment, Committee, Announcement, DashboardStats } from './types';
+import type { User, Event, Payment, Committee, Announcement, DashboardStats, Track } from './types';
+
+export const mockTracks: Track[] = [
+    { id: '1', title: 'Molecular Biology & Genetics', description: 'Exploring the fundamental mechanisms of life at the molecular level.', icon: '🧬' },
+    { id: '2', title: 'Biochemistry & Metabolism', description: 'Studying chemical processes within and relating to living organisms.', icon: '⚗️' },
+    { id: '3', title: 'Microbiology & Infectious Diseases', description: 'Investigating microscopic organisms and their impact on health.', icon: '🦠' },
+    { id: '4', title: 'Biotechnology & Synthetic Biology', description: 'Engineering biological systems for useful purposes.', icon: '⚙️' },
+    { id: '5', title: 'Bioinformatics & Computational Biology', description: 'Applying computational techniques to analyze biological data.', icon: '💻' },
+    { id: '6', title: 'Cancer Biology & Precision Medicine', description: 'Understanding cancer development and targeted therapies.', icon: '🎗️' },
+    { id: '7', title: 'Pharmacology, Drug Discovery & Toxicology', description: 'Study of drug action and development of new therapeutics.', icon: '💊' },
+    { id: '8', title: 'Medical Diagnostics & Clinical Lab Science', description: 'Techniques for diagnosing diseases in clinical settings.', icon: '🔬' },
+    { id: '9', title: 'Environmental & Industrial Biochemistry', description: 'Biochemical approaches to environmental and industrial challenges.', icon: '🌱' },
+    { id: '10', title: 'Health Tech & Biomedical Engineering', description: 'Intersection of technology and healthcare.', icon: '🏥' },
+];
+
+export const mockGalleryImages = [
+    'https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&q=80&w=800',
+    'https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&q=80&w=800',
+    'https://images.unsplash.com/photo-1564325724739-bae0bd08762c?auto=format&fit=crop&q=80&w=800',
+    'https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&q=80&w=800',
+    'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&q=80&w=800',
+    'https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&q=80&w=800',
+];
 
 export const mockUsers: User[] = [
     {
@@ -73,55 +95,218 @@ export const mockUsers: User[] = [
             photoUrl: 'https://ui-avatars.com/api/?name=Mary+Wanjiru&background=EF4444&color=fff',
         },
     },
+    // Track Leads
     {
-        id: '5',
-        email: 'alice.wamaitha@student.jkuat.ac.ke',
-        fullName: 'Alice Wamaitha',
-        studentId: 'BIO/2021/055',
+        id: '11',
+        email: 'lead.molbio@jkubs.org',
+        fullName: 'Dr. Sarah Kimani',
+        studentId: 'LEAD/001',
         department: 'Biochemistry',
         yearOfStudy: 4,
-        role: 'research_lead',
-        joinedAt: '2022-02-10T09:00:00Z',
+        role: 'committee',
+        joinedAt: '2023-01-01T00:00:00Z',
         verified: true,
         profile: {
-            userId: '5',
-            bio: 'Research Lead. Spearheading our journal club and lab projects.',
-            photoUrl: 'https://ui-avatars.com/api/?name=Alice+Wamaitha&background=8B5CF6&color=fff',
-            duesStatus: 'current'
+            userId: '11',
+            bio: 'Passionate about DNA replication and repair mechanisms. Research focus on CRISPR gene editing and its applications in disease treatment.',
+            photoUrl: 'https://ui-avatars.com/api/?name=Sarah+Kimani&background=4F46E5',
+            duesStatus: 'current',
+            track: 'Molecular Biology & Genetics',
+            twitter: 'sarahkimani_bio',
+            linkedin: 'sarah-kimani',
+            github: 'skimani',
+            location: 'Nairobi, Kenya'
         }
     },
     {
-        id: '6',
-        email: 'john.kamau@student.jkuat.ac.ke',
-        fullName: 'John Kamau',
-        studentId: 'BIO/2021/066',
-        department: 'Molecular Biology',
-        yearOfStudy: 3,
-        role: 'mentorship_lead',
-        joinedAt: '2022-03-15T11:00:00Z',
-        verified: true,
-        profile: {
-            userId: '6',
-            bio: 'Mentorship Lead. Connecting students with alumni and industry mentors.',
-            photoUrl: 'https://ui-avatars.com/api/?name=John+Kamau&background=EC4899&color=fff',
-            duesStatus: 'current'
-        }
-    },
-    {
-        id: '7',
-        email: 'sarah.njoroge@student.jkuat.ac.ke',
-        fullName: 'Sarah Njoroge',
-        studentId: 'BIO/2022/077',
+        id: '12',
+        email: 'lead.biochem@jkubs.org',
+        fullName: 'Kevin Omondi',
+        studentId: 'LEAD/002',
         department: 'Biochemistry',
-        yearOfStudy: 2,
-        role: 'outreach_lead',
-        joinedAt: '2023-05-20T10:00:00Z',
+        yearOfStudy: 3,
+        role: 'committee',
+        joinedAt: '2023-01-01T00:00:00Z',
         verified: true,
         profile: {
-            userId: '7',
-            bio: 'Outreach Lead. Coordinating community service and high school visits.',
-            photoUrl: 'https://ui-avatars.com/api/?name=Sarah+Njoroge&background=14B8A6&color=fff',
-            duesStatus: 'current'
+            userId: '12',
+            bio: 'Focusing on metabolic pathways and enzymology. Exploring enzyme kinetics in metabolic disorders.',
+            photoUrl: 'https://ui-avatars.com/api/?name=Kevin+Omondi&background=059669',
+            duesStatus: 'current',
+            track: 'Biochemistry & Metabolism',
+            twitter: 'kevin_biochem',
+            linkedin: 'kevin-omondi-biochem',
+            location: 'Juja, Kenya'
+        }
+    },
+    {
+        id: '13',
+        email: 'lead.micro@jkubs.org',
+        fullName: 'Grace Wanjiku',
+        studentId: 'LEAD/003',
+        department: 'Microbiology',
+        yearOfStudy: 4,
+        role: 'committee',
+        joinedAt: '2023-01-01T00:00:00Z',
+        verified: true,
+        profile: {
+            userId: '13',
+            bio: 'Investigating antibiotic resistance in local pathogens. Working on novel antimicrobial compounds from medicinal plants.',
+            photoUrl: 'https://ui-avatars.com/api/?name=Grace+Wanjiku&background=DC2626',
+            duesStatus: 'current',
+            track: 'Microbiology & Infectious Diseases',
+            twitter: 'grace_microbe',
+            linkedin: 'grace-wanjiku-micro',
+            location: 'Nairobi, Kenya'
+        }
+    },
+    {
+        id: '14',
+        email: 'lead.biotech@jkubs.org',
+        fullName: 'Brian Kipkorir',
+        studentId: 'LEAD/004',
+        department: 'Biotechnology',
+        yearOfStudy: 3,
+        role: 'committee',
+        joinedAt: '2023-01-01T00:00:00Z',
+        verified: true,
+        profile: {
+            userId: '14',
+            bio: 'Developing synthetic biology tools for agriculture. Creating drought-resistant crop varieties using bioengineering.',
+            photoUrl: 'https://ui-avatars.com/api/?name=Brian+Kipkorir&background=EA580C',
+            duesStatus: 'current',
+            track: 'Biotechnology & Synthetic Biology',
+            linkedin: 'brian-kipkorir',
+            github: 'bkipkorir',
+            location: 'Eldoret, Kenya'
+        }
+    },
+    {
+        id: '15',
+        email: 'lead.bioinf@jkubs.org',
+        fullName: 'Ian Njoroge',
+        studentId: 'LEAD/005',
+        department: 'Computer Science',
+        yearOfStudy: 4,
+        role: 'committee',
+        joinedAt: '2023-01-01T00:00:00Z',
+        verified: true,
+        profile: {
+            userId: '15',
+            bio: 'Applying ML algorithms to genomic data. Building tools for disease prediction using bioinformatics.',
+            photoUrl: 'https://ui-avatars.com/api/?name=Ian+Njoroge&background=7C3AED',
+            duesStatus: 'current',
+            track: 'Bioinformatics & Computational Biology',
+            twitter: 'ian_bioinf',
+            linkedin: 'ian-njoroge-bioinf',
+            github: 'injoroge',
+            location: 'Nairobi, Kenya'
+        }
+    },
+    {
+        id: '16',
+        email: 'lead.cancer@jkubs.org',
+        fullName: 'Linda Achieng',
+        studentId: 'LEAD/006',
+        department: 'Biochemistry',
+        yearOfStudy: 4,
+        role: 'committee',
+        joinedAt: '2023-01-01T00:00:00Z',
+        verified: true,
+        profile: {
+            userId: '16',
+            bio: 'Researching novel biomarkers for early cancer detection. Passionate about precision medicine and personalized treatments.',
+            photoUrl: 'https://ui-avatars.com/api/?name=Linda+Achieng&background=EC4899',
+            duesStatus: 'current',
+            track: 'Cancer Biology & Precision Medicine',
+            twitter: 'linda_cancer_res',
+            linkedin: 'linda-achieng',
+            location: 'Kisumu, Kenya'
+        }
+    },
+    {
+        id: '17',
+        email: 'lead.pharma@jkubs.org',
+        fullName: 'Samuel Kamau',
+        studentId: 'LEAD/007',
+        department: 'Pharmacy',
+        yearOfStudy: 3,
+        role: 'committee',
+        joinedAt: '2023-01-01T00:00:00Z',
+        verified: true,
+        profile: {
+            userId: '17',
+            bio: 'Studying ethnopharmacology and drug safety. Researching traditional herbal medicines for modern drug development.',
+            photoUrl: 'https://ui-avatars.com/api/?name=Samuel+Kamau&background=0891B2',
+            duesStatus: 'current',
+            track: 'Pharmacology, Drug Discovery & Toxicology',
+            twitter: 'sam_pharma',
+            linkedin: 'samuel-kamau-pharma',
+            location: 'Nairobi, Kenya'
+        }
+    },
+    {
+        id: '18',
+        email: 'lead.diag@jkubs.org',
+        fullName: 'Mercy Chebet',
+        studentId: 'LEAD/008',
+        department: 'Medical Lab Science',
+        yearOfStudy: 4,
+        role: 'committee',
+        joinedAt: '2023-01-01T00:00:00Z',
+        verified: true,
+        profile: {
+            userId: '18',
+            bio: 'Improving diagnostic accuracy for tropical diseases. Working on rapid diagnostic tests for malaria and tuberculosis.',
+            photoUrl: 'https://ui-avatars.com/api/?name=Mercy+Chebet&background=F59E0B',
+            duesStatus: 'current',
+            track: 'Medical Diagnostics & Clinical Laboratory Science',
+            linkedin: 'mercy-chebet-mls',
+            location: 'Nakuru, Kenya'
+        }
+    },
+    {
+        id: '19',
+        email: 'lead.env@jkubs.org',
+        fullName: 'David Mutua',
+        studentId: 'LEAD/009',
+        department: 'Biochemistry',
+        yearOfStudy: 3,
+        role: 'committee',
+        joinedAt: '2023-01-01T00:00:00Z',
+        verified: true,
+        profile: {
+            userId: '19',
+            bio: 'Bioremediation of industrial effluents. Developing microbial solutions for pollution cleanup and environmental restoration.',
+            photoUrl: 'https://ui-avatars.com/api/?name=David+Mutua&background=059669',
+            duesStatus: 'current',
+            track: 'Environmental & Industrial Biochemistry',
+            twitter: 'david_enviro',
+            linkedin: 'david-mutua-env',
+            github: 'dmutua',
+            location: 'Machakos, Kenya'
+        }
+    },
+    {
+        id: '20',
+        email: 'lead.healthtech@jkubs.org',
+        fullName: 'Faith Kananu',
+        studentId: 'LEAD/010',
+        department: 'Biomedical Engineering',
+        yearOfStudy: 4,
+        role: 'committee',
+        joinedAt: '2023-01-01T00:00:00Z',
+        verified: true,
+        profile: {
+            userId: '20',
+            bio: 'Designing low-cost medical devices. Creating accessible healthcare technology for underserved communities.',
+            photoUrl: 'https://ui-avatars.com/api/?name=Faith+Kananu&background=0B5FFF',
+            duesStatus: 'current',
+            track: 'Health Technology, & Biomedical Engineering',
+            twitter: 'faith_healthtech',
+            linkedin: 'faith-kananu',
+            github: 'fkananu',
+            location: 'Nairobi, Kenya'
         }
     }
 ];
@@ -139,6 +324,7 @@ export const mockEvents: Event[] = [
         status: 'published',
         rsvpCount: 87,
         attendeeCount: 0,
+        eventType: 'Conference',
     },
     {
         id: '2',
@@ -152,6 +338,7 @@ export const mockEvents: Event[] = [
         status: 'published',
         rsvpCount: 42,
         attendeeCount: 0,
+        eventType: 'Workshop',
     },
     {
         id: '3',
@@ -165,6 +352,7 @@ export const mockEvents: Event[] = [
         status: 'published',
         rsvpCount: 65,
         attendeeCount: 58,
+        eventType: 'Meetup',
     },
     {
         id: '4',
@@ -177,6 +365,7 @@ export const mockEvents: Event[] = [
         status: 'draft',
         rsvpCount: 12,
         attendeeCount: 0,
+        eventType: 'Workshop',
     },
 ];
 
@@ -303,3 +492,24 @@ export const loginUser = (email: string, password: string): User | null => {
 export const logoutUser = () => {
     currentUser = mockUsers[0];
 };
+
+export const mockSponsors = [
+    {
+        id: '1',
+        name: 'Google for Developers',
+        logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Google_Developers_logo.svg/2560px-Google_Developers_logo.svg.png',
+        website: 'https://developers.google.com'
+    },
+    {
+        id: '2',
+        name: 'JKUAT',
+        logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/2/28/Jomo_Kenyatta_University_of_Agriculture_and_Technology_Logo.png',
+        website: 'http://www.jkuat.ac.ke'
+    },
+    {
+        id: '3',
+        name: 'Science Africa',
+        logoUrl: 'https://placehold.co/200x80/e2e8f0/1e293b?text=Science+Africa',
+        website: '#'
+    }
+];

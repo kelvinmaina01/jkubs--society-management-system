@@ -32,6 +32,18 @@ export interface UserProfile {
     photoUrl?: string;
     duesStatus: MembershipStatus;
     emergencyContact?: string;
+    track?: string;
+    twitter?: string;
+    linkedin?: string;
+    github?: string;
+    location?: string;
+}
+
+export interface Track {
+    id: string;
+    title: string;
+    description: string;
+    icon: string;
 }
 
 export interface Event {
@@ -47,6 +59,7 @@ export interface Event {
     imageUrl?: string;
     rsvpCount?: number;
     attendeeCount?: number;
+    eventType?: 'Workshop' | 'Study Group' | 'Meetup' | 'Conference' | 'Social';
 }
 
 export interface RSVP {
