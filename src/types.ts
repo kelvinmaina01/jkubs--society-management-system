@@ -1,6 +1,7 @@
 // Type definitions for JKUBS Society Management System
 
-export type UserRole = 'member' | 'committee' | 'admin' | 'chairman' | 'secretary' | 'treasurer' | 'research_lead' | 'mentorship_lead' | 'outreach_lead';
+// New role system for three-tier architecture
+export type UserRole = 'super_admin' | 'executive_admin' | 'track_lead' | 'event_coordinator' | 'member';
 
 export type MembershipStatus = 'current' | 'overdue' | 'none';
 
@@ -12,6 +13,12 @@ export type PaymentMethod = 'manual' | 'mpesa' | 'card' | 'bank';
 
 export type PaymentStatus = 'pending' | 'completed' | 'failed';
 
+export type TrackCategory = 'academic' | 'innovation' | 'community';
+
+export type BadgeType = 'track_completion' | 'event_attendance' | 'leadership' | 'contribution';
+
+export type CertificateType = 'track_completion' | 'event_participation' | 'workshop_completion';
+
 export interface User {
     id: string;
     email: string;
@@ -20,8 +27,11 @@ export interface User {
     department: string;
     yearOfStudy: number;
     role: UserRole;
+    position?: string; // Executive titles: Chairman, Treasurer, Secretary, etc.
+    assignedTrackId?: string; // For track leads - which track they manage
     joinedAt: string;
     verified: boolean;
+    status: 'pending' | 'active' | 'suspended' | 'rejected';
     profile?: UserProfile;
 }
 
@@ -44,6 +54,12 @@ export interface Track {
     title: string;
     description: string;
     icon: string;
+    category: TrackCategory;
+    leadId?: string;
+    enrollmentCount?: number;
+    contentCount?: number;
+    difficultyLevel?: 'beginner' | 'intermediate' | 'advanced';
+    estimatedDuration?: string; // e.g., "8 weeks"
 }
 
 export interface Event {
@@ -138,4 +154,76 @@ export interface DashboardStats {
     duesCollected: number;
     pendingPayments: number;
     recentAnnouncements: number;
+}
+
+// Track System Interfaces
+export interface TrackEnrollment {
+    id: string;
+    trackId: string;
+    userId: string;
+    enrolledAt: string;
+    status: 'active' | 'completed' | 'paused' | 'withdrawn';
+    progress: number; // 0-100
+    completedAt?: string;
+    track?: Track;
+    user?: User;
+}
+
+export interface TrackContent {
+    id: string;
+    trackId: string;
+    title: string;
+    description: string;
+    contentType: 'lesson' | 'challenge' | 'resource' | 'quiz';
+    order: number;
+    duration?: number; // minutes
+    createdBy: string;
+    createdAt: string;
+    track?: Track;
+}
+
+export interface TrackProgress {
+    id: string;
+    enrollmentId: string;
+    contentId: string;
+    userId: string;
+    completedAt?: string;
+    status: 'not_started' | 'in_progress' | 'completed';
+    score?: number;
+}
+
+// Badge System
+export interface Badge {
+    id: string;
+    title: string;
+    description: string;
+    icon: string;
+    badgeType: BadgeType;
+    requirements: string;
+    trackId?: string;
+}
+
+export interface UserBadge {
+    id: string;
+    userId: string;
+    badgeId: string;
+    earnedAt: string;
+    badge?: Badge;
+    user?: User;
+}
+
+// Certificate System
+export interface Certificate {
+    id: string;
+    title: string;
+    userId: string;
+    certificateType: CertificateType;
+    issuedAt: string;
+    trackId?: string;
+    eventId?: string;
+    certificateUrl?: string;
+    verificationCode: string;
+    user?: User;
+    track?: Track;
+    event?: Event;
 }

@@ -1,9 +1,20 @@
+import { useState } from 'react';
 import { mockAnnouncements, mockUsers } from '../mockData';
+import type { Announcement } from '../types';
+import AnnouncementCreateModal from './admin/AnnouncementCreateModal';
 
 const AnnouncementList = () => {
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+
     const getAuthorName = (userId: string) => {
         const user = mockUsers.find(u => u.id === userId);
         return user?.fullName || 'Unknown';
+    };
+
+    const handleCreateAnnouncement = (announcementData: Partial<Announcement>) => {
+        console.log('Creating announcement:', announcementData);
+        // In a real app, this would make an API call
+        setIsCreateModalOpen(false);
     };
 
     const formatDate = (dateString: string) => {
@@ -30,7 +41,10 @@ const AnnouncementList = () => {
                         Stay updated with society news
                     </p>
                 </div>
-                <button className="btn btn-primary btn-lg">
+                <button
+                    onClick={() => setIsCreateModalOpen(true)}
+                    className="btn btn-primary btn-lg"
+                >
                     ➕ New Announcement
                 </button>
             </div>
@@ -83,6 +97,12 @@ const AnnouncementList = () => {
                     ))}
                 </div>
             </div>
+
+            <AnnouncementCreateModal
+                isOpen={isCreateModalOpen}
+                onClose={() => setIsCreateModalOpen(false)}
+                onSubmit={handleCreateAnnouncement}
+            />
         </div>
     );
 };

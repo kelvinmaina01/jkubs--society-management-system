@@ -1,17 +1,166 @@
 // Mock data for JKUBS Society Management System
-import type { User, Event, Payment, Committee, Announcement, DashboardStats, Track } from './types';
+import type { User, Event, Payment, Committee, Announcement, DashboardStats, Track, Badge, Certificate, TrackEnrollment } from './types';
 
+// 17 Tracks organized by category
 export const mockTracks: Track[] = [
-    { id: '1', title: 'Molecular Biology & Genetics', description: 'Exploring the fundamental mechanisms of life at the molecular level.', icon: '🧬' },
-    { id: '2', title: 'Biochemistry & Metabolism', description: 'Studying chemical processes within and relating to living organisms.', icon: '⚗️' },
-    { id: '3', title: 'Microbiology & Infectious Diseases', description: 'Investigating microscopic organisms and their impact on health.', icon: '🦠' },
-    { id: '4', title: 'Biotechnology & Synthetic Biology', description: 'Engineering biological systems for useful purposes.', icon: '⚙️' },
-    { id: '5', title: 'Bioinformatics & Computational Biology', description: 'Applying computational techniques to analyze biological data.', icon: '💻' },
-    { id: '6', title: 'Cancer Biology & Precision Medicine', description: 'Understanding cancer development and targeted therapies.', icon: '🎗️' },
-    { id: '7', title: 'Pharmacology, Drug Discovery & Toxicology', description: 'Study of drug action and development of new therapeutics.', icon: '💊' },
-    { id: '8', title: 'Medical Diagnostics & Clinical Lab Science', description: 'Techniques for diagnosing diseases in clinical settings.', icon: '🔬' },
-    { id: '9', title: 'Environmental & Industrial Biochemistry', description: 'Biochemical approaches to environmental and industrial challenges.', icon: '🌱' },
-    { id: '10', title: 'Health Tech & Biomedical Engineering', description: 'Intersection of technology and healthcare.', icon: '🏥' },
+    // ACADEMIC/PROFESSIONAL TRACKS (10)
+    {
+        id: '1',
+        title: 'Molecular Biology Track',
+        description: 'Exploring DNA, RNA, and protein synthesis. Learn about gene expression, molecular cloning, and CRISPR technology.',
+        icon: '🧬',
+        category: 'academic',
+        difficultyLevel: 'intermediate',
+        estimatedDuration: '10 weeks'
+    },
+    {
+        id: '2',
+        title: 'Biochemistry Core Track',
+        description: 'Fundamental biochemical principles including metabolism, enzymology, and cellular biochemistry.',
+        icon: '⚗️',
+        category: 'academic',
+        difficultyLevel: 'beginner',
+        estimatedDuration: '8 weeks'
+    },
+    {
+        id: '3',
+        title: 'Microbiology & Immunology Track',
+        description: 'Study of microorganisms, immune system function, and infectious disease mechanisms.',
+        icon: '🦠',
+        category: 'academic',
+        difficultyLevel: 'intermediate',
+        estimatedDuration: '10 weeks'
+    },
+    {
+        id: '4',
+        title: 'Bioinformatics & Computational Biology Track',
+        description: 'Apply computational tools to biological data. Learn Python, R, and bioinformatics algorithms.',
+        icon: '💻',
+        category: 'academic',
+        difficultyLevel: 'advanced',
+        estimatedDuration: '12 weeks'
+    },
+    {
+        id: '5',
+        title: 'Cancer Biology & Molecular Medicine Track',
+        description: 'Understand cancer mechanisms, oncogenes, tumor suppressors, and precision medicine approaches.',
+        icon: '🎗️',
+        category: 'academic',
+        difficultyLevel: 'advanced',
+        estimatedDuration: '12 weeks'
+    },
+    {
+        id: '6',
+        title: 'Pharmaceutical Biochemistry Track',
+        description: 'Drug discovery, pharmacokinetics, and pharmaceutical development from molecules to medicine.',
+        icon: '💊',
+        category: 'academic',
+        difficultyLevel: 'intermediate',
+        estimatedDuration: '10 weeks'
+    },
+    {
+        id: '7',
+        title: 'Biotechnology & Industrial Bioprocess Track',
+        description: 'Industrial biotechnology, fermentation, bioreactors, and bioprocess optimization.',
+        icon: '⚙️',
+        category: 'academic',
+        difficultyLevel: 'intermediate',
+        estimatedDuration: '10 weeks'
+    },
+    {
+        id: '8',
+        title: 'Clinical Biochemistry Track',
+        description: 'Clinical diagnostics, laboratory medicine, and interpretation of biochemical tests.',
+        icon: '🔬',
+        category: 'academic',
+        difficultyLevel: 'intermediate',
+        estimatedDuration: '8 weeks'
+    },
+    {
+        id: '9',
+        title: 'Neuroscience & Neurobiology Track',
+        description: 'Brain function, neural signaling, neurotransmitters, and neurological disorders.',
+        icon: '🧠',
+        category: 'academic',
+        difficultyLevel: 'advanced',
+        estimatedDuration: '12 weeks'
+    },
+    {
+        id: '10',
+        title: 'Genomics, Proteomics & Omics Track',
+        description: 'High-throughput genomics, proteomics, metabolomics, and systems biology approaches.',
+        icon: '🔍',
+        category: 'academic',
+        difficultyLevel: 'advanced',
+        estimatedDuration: '12 weeks'
+    },
+
+    // INNOVATION TRACKS (4)
+    {
+        id: '11',
+        title: 'Young Scientists Track',
+        description: 'Develop research skills, scientific method, and innovation mindset for early-career scientists.',
+        icon: '👨‍🔬',
+        category: 'innovation',
+        difficultyLevel: 'beginner',
+        estimatedDuration: '6 weeks'
+    },
+    {
+        id: '12',
+        title: 'Research & Publications Track',
+        description: 'Learn research methodology, academic writing, and how to publish scientific papers.',
+        icon: '📚',
+        category: 'innovation',
+        difficultyLevel: 'intermediate',
+        estimatedDuration: '8 weeks'
+    },
+    {
+        id: '13',
+        title: 'Biotech Entrepreneurship Track',
+        description: 'Business fundamentals for biotech startups, commercialization, and innovation management.',
+        icon: '💼',
+        category: 'innovation',
+        difficultyLevel: 'intermediate',
+        estimatedDuration: '10 weeks'
+    },
+    {
+        id: '14',
+        title: 'Lab Skills & Instrumentation Track',
+        description: 'Hands-on laboratory techniques, equipment operation, and safety protocols.',
+        icon: '🧪',
+        category: 'innovation',
+        difficultyLevel: 'beginner',
+        estimatedDuration: '6 weeks'
+    },
+
+    // COMMUNITY TRACKS (3)
+    {
+        id: '15',
+        title: 'Science Communication Track',
+        description: 'Effective communication of scientific concepts to diverse audiences and public engagement.',
+        icon: '📢',
+        category: 'community',
+        difficultyLevel: 'beginner',
+        estimatedDuration: '6 weeks'
+    },
+    {
+        id: '16',
+        title: 'Leadership & Professional Development Track',
+        description: 'Leadership skills, career planning, networking, and professional growth in science.',
+        icon: '🌟',
+        category: 'community',
+        difficultyLevel: 'beginner',
+        estimatedDuration: '8 weeks'
+    },
+    {
+        id: '17',
+        title: 'Environmental & Agricultural Biochemistry Track',
+        description: 'Sustainable agriculture, bioremediation, and environmental conservation through biochemistry.',
+        icon: '🌱',
+        category: 'community',
+        difficultyLevel: 'intermediate',
+        estimatedDuration: '10 weeks'
+    },
 ];
 
 export const mockGalleryImages = [
@@ -25,97 +174,127 @@ export const mockGalleryImages = [
 
 export const mockUsers: User[] = [
     {
-        id: '1',
-        email: 'shiphra.wangu@student.jkuat.ac.ke',
-        fullName: 'Shiphra Wangu',
-        studentId: 'BIO/2021/001',
+        id: 'admin-1',
+        email: 'admin@jkubs.org',
+        fullName: 'System Admin',
+        studentId: 'ADMIN/001',
+        department: 'ICT',
+        yearOfStudy: 4,
+        role: 'super_admin',
+        joinedAt: '2023-01-01T00:00:00Z',
+        verified: true,
+        status: 'active',
+        profile: {
+            userId: 'admin-1',
+            bio: 'System Administrator',
+            photoUrl: 'https://ui-avatars.com/api/?name=System+Admin&background=000000&color=fff',
+            duesStatus: 'current',
+            location: 'Juja, Kenya'
+        }
+    },
+    {
+        id: 'lead-1',
+        email: 'lead@jkubs.org',
+        fullName: 'Test Track Lead',
+        studentId: 'LEAD/999',
         department: 'Biochemistry',
         yearOfStudy: 3,
-        role: 'chairman',
-        joinedAt: '2023-09-01T00:00:00Z',
+        role: 'track_lead',
+        joinedAt: '2023-01-01T00:00:00Z',
         verified: true,
+        status: 'active',
+        profile: {
+            userId: 'lead-1',
+            bio: 'Test Track Lead Account',
+            photoUrl: 'https://ui-avatars.com/api/?name=Track+Lead&background=7C3AED&color=fff',
+            duesStatus: 'current',
+            track: 'Biochemistry & Metabolism',
+            location: 'Juja, Kenya'
+        }
+    },
+    {
+        id: '1',
+        email: 'chair@jkubs.org',
+        fullName: 'Shiphra Wangu',
+        studentId: 'EXEC/001',
+        department: 'Biochemistry',
+        yearOfStudy: 4,
+        role: 'executive_admin',
+        position: 'Chairperson',
+        joinedAt: '2023-01-01T00:00:00Z',
+        verified: true,
+        status: 'active',
         profile: {
             userId: '1',
-            phone: '+254712345678',
-            bio: 'Chairperson of JKUBS. Leading the society to new heights.',
+            bio: 'Passionate about leadership and biochemistry. Serving as the Chairperson of JKUBS.',
             photoUrl: 'https://ui-avatars.com/api/?name=Shiphra+Wangu&background=0D8ABC&color=fff',
             duesStatus: 'current',
-        },
+            track: 'Biochemistry & Metabolism',
+            twitter: 'shiphra_wangu',
+            linkedin: 'shiphra-wangu',
+            location: 'Nairobi, Kenya'
+        }
     },
     {
         id: '2',
-        email: 'james.mwangi@student.jkuat.ac.ke',
+        email: 'treasurer@jkubs.org',
         fullName: 'James Mwangi',
-        studentId: 'BIO/2022/015',
-        department: 'Biochemistry',
-        yearOfStudy: 2,
-        role: 'treasurer',
-        joinedAt: '2023-09-05T00:00:00Z',
+        studentId: 'EXEC/002',
+        department: 'Microbiology',
+        yearOfStudy: 3,
+        role: 'executive_admin',
+        position: 'Treasurer',
+        joinedAt: '2023-02-15T00:00:00Z',
         verified: true,
+        status: 'active',
         profile: {
             userId: '2',
-            phone: '+254723456789',
-            bio: 'Treasurer. Managing society finances and dues.',
-            photoUrl: 'https://ui-avatars.com/api/?name=James+Mwangi&background=F59E0B&color=fff',
+            bio: 'Managing finances and ensuring transparency. Love microbiology.',
+            photoUrl: 'https://ui-avatars.com/api/?name=James+Mwangi&background=10B981&color=fff',
             duesStatus: 'current',
-        },
+            track: 'Microbiology & Infectious Diseases',
+            location: 'Nakuru, Kenya'
+        }
     },
     {
         id: '3',
-        email: 'peter.otieno@student.jkuat.ac.ke',
-        fullName: 'Peter Otieno',
-        studentId: 'BIO/2021/028',
-        department: 'Biochemistry',
-        yearOfStudy: 3,
-        role: 'secretary',
-        joinedAt: '2023-09-03T00:00:00Z',
+        email: 'member@student.jkuat.ac.ke',
+        fullName: 'Mary Wanjiru',
+        studentId: 'SC200/0001/2021',
+        department: 'Genomic Sciences',
+        yearOfStudy: 2,
+        role: 'member',
+        joinedAt: '2023-09-10T00:00:00Z',
         verified: true,
+        status: 'active',
         profile: {
             userId: '3',
-            phone: '+254745678901',
-            bio: 'Secretary. Handling correspondence and records.',
-            photoUrl: 'https://ui-avatars.com/api/?name=Peter+Otieno&background=10B981&color=fff',
-            duesStatus: 'current',
-        },
+            bio: 'Aspiring geneticist. Excited to learn more about genomics.',
+            photoUrl: 'https://ui-avatars.com/api/?name=Mary+Wanjiru&background=F59E0B&color=fff',
+            duesStatus: 'overdue',
+            track: 'Molecular Biology & Genetics',
+            location: 'Juja, Kenya'
+        }
     },
     {
         id: '4',
-        email: 'mary.wanjiru@student.jkuat.ac.ke',
-        fullName: 'Mary Wanjiru',
-        studentId: 'BIO/2023/042',
-        department: 'Biochemistry',
-        yearOfStudy: 1,
-        role: 'member',
-        joinedAt: '2024-09-01T00:00:00Z',
+        email: 'secretary@jkubs.org',
+        fullName: 'David Kamau',
+        studentId: 'EXEC/003',
+        department: 'Biotechnology',
+        yearOfStudy: 3,
+        role: 'executive_admin',
+        position: 'Secretary',
+        joinedAt: '2023-03-01T00:00:00Z',
         verified: true,
+        status: 'active',
         profile: {
             userId: '4',
-            phone: '+254734567890',
-            duesStatus: 'overdue',
-            photoUrl: 'https://ui-avatars.com/api/?name=Mary+Wanjiru&background=EF4444&color=fff',
-        },
-    },
-    // Track Leads
-    {
-        id: '11',
-        email: 'lead.molbio@jkubs.org',
-        fullName: 'Dr. Sarah Kimani',
-        studentId: 'LEAD/001',
-        department: 'Biochemistry',
-        yearOfStudy: 4,
-        role: 'committee',
-        joinedAt: '2023-01-01T00:00:00Z',
-        verified: true,
-        profile: {
-            userId: '11',
-            bio: 'Passionate about DNA replication and repair mechanisms. Research focus on CRISPR gene editing and its applications in disease treatment.',
-            photoUrl: 'https://ui-avatars.com/api/?name=Sarah+Kimani&background=4F46E5',
+            bio: 'Keeping records and organizing events. Biotech enthusiast.',
+            photoUrl: 'https://ui-avatars.com/api/?name=David+Kamau&background=8B5CF6&color=fff',
             duesStatus: 'current',
-            track: 'Molecular Biology & Genetics',
-            twitter: 'sarahkimani_bio',
-            linkedin: 'sarah-kimani',
-            github: 'skimani',
-            location: 'Nairobi, Kenya'
+            track: 'Biotechnology & Synthetic Biology',
+            location: 'Thika, Kenya'
         }
     },
     {
@@ -125,9 +304,12 @@ export const mockUsers: User[] = [
         studentId: 'LEAD/002',
         department: 'Biochemistry',
         yearOfStudy: 3,
-        role: 'committee',
+        role: 'track_lead',
+        assignedTrackId: '2', // Biochemistry Core Track
+        position: 'Track Lead - Biochemistry',
         joinedAt: '2023-01-01T00:00:00Z',
         verified: true,
+        status: 'active',
         profile: {
             userId: '12',
             bio: 'Focusing on metabolic pathways and enzymology. Exploring enzyme kinetics in metabolic disorders.',
@@ -146,9 +328,12 @@ export const mockUsers: User[] = [
         studentId: 'LEAD/003',
         department: 'Microbiology',
         yearOfStudy: 4,
-        role: 'committee',
+        role: 'track_lead',
+        assignedTrackId: '3', // Microbiology & Immunology Track
+        position: 'Track Lead - Microbiology',
         joinedAt: '2023-01-01T00:00:00Z',
         verified: true,
+        status: 'active',
         profile: {
             userId: '13',
             bio: 'Investigating antibiotic resistance in local pathogens. Working on novel antimicrobial compounds from medicinal plants.',
@@ -167,9 +352,12 @@ export const mockUsers: User[] = [
         studentId: 'LEAD/004',
         department: 'Biotechnology',
         yearOfStudy: 3,
-        role: 'committee',
+        role: 'track_lead',
+        assignedTrackId: '7', // Biotechnology & Industrial Bioprocess Track
+        position: 'Track Lead - Biotechnology',
         joinedAt: '2023-01-01T00:00:00Z',
         verified: true,
+        status: 'active',
         profile: {
             userId: '14',
             bio: 'Developing synthetic biology tools for agriculture. Creating drought-resistant crop varieties using bioengineering.',
@@ -188,9 +376,12 @@ export const mockUsers: User[] = [
         studentId: 'LEAD/005',
         department: 'Computer Science',
         yearOfStudy: 4,
-        role: 'committee',
+        role: 'track_lead',
+        assignedTrackId: '4', // Bioinformatics & Computational Biology Track
+        position: 'Track Lead - Bioinformatics',
         joinedAt: '2023-01-01T00:00:00Z',
         verified: true,
+        status: 'active',
         profile: {
             userId: '15',
             bio: 'Applying ML algorithms to genomic data. Building tools for disease prediction using bioinformatics.',
@@ -210,9 +401,12 @@ export const mockUsers: User[] = [
         studentId: 'LEAD/006',
         department: 'Biochemistry',
         yearOfStudy: 4,
-        role: 'committee',
+        role: 'track_lead',
+        assignedTrackId: '5', // Cancer Biology & Molecular Medicine Track
+        position: 'Track Lead - Cancer Biology',
         joinedAt: '2023-01-01T00:00:00Z',
         verified: true,
+        status: 'active',
         profile: {
             userId: '16',
             bio: 'Researching novel biomarkers for early cancer detection. Passionate about precision medicine and personalized treatments.',
@@ -231,9 +425,12 @@ export const mockUsers: User[] = [
         studentId: 'LEAD/007',
         department: 'Pharmacy',
         yearOfStudy: 3,
-        role: 'committee',
+        role: 'track_lead',
+        assignedTrackId: '6', // Pharmaceutical Biochemistry Track
+        position: 'Track Lead - Pharmaceutical Biochemistry',
         joinedAt: '2023-01-01T00:00:00Z',
         verified: true,
+        status: 'active',
         profile: {
             userId: '17',
             bio: 'Studying ethnopharmacology and drug safety. Researching traditional herbal medicines for modern drug development.',
@@ -252,9 +449,12 @@ export const mockUsers: User[] = [
         studentId: 'LEAD/008',
         department: 'Medical Lab Science',
         yearOfStudy: 4,
-        role: 'committee',
+        role: 'track_lead',
+        assignedTrackId: '8', // Clinical Biochemistry Track
+        position: 'Track Lead - Clinical Biochemistry',
         joinedAt: '2023-01-01T00:00:00Z',
         verified: true,
+        status: 'active',
         profile: {
             userId: '18',
             bio: 'Improving diagnostic accuracy for tropical diseases. Working on rapid diagnostic tests for malaria and tuberculosis.',
@@ -272,9 +472,12 @@ export const mockUsers: User[] = [
         studentId: 'LEAD/009',
         department: 'Biochemistry',
         yearOfStudy: 3,
-        role: 'committee',
+        role: 'track_lead',
+        assignedTrackId: '17', // Environmental & Agricultural Biochemistry Track
+        position: 'Track Lead - Environmental Biochemistry',
         joinedAt: '2023-01-01T00:00:00Z',
         verified: true,
+        status: 'active',
         profile: {
             userId: '19',
             bio: 'Bioremediation of industrial effluents. Developing microbial solutions for pollution cleanup and environmental restoration.',
@@ -294,9 +497,12 @@ export const mockUsers: User[] = [
         studentId: 'LEAD/010',
         department: 'Biomedical Engineering',
         yearOfStudy: 4,
-        role: 'committee',
+        role: 'track_lead',
+        assignedTrackId: '9', // Neuroscience & Neurobiology Track (Health Tech)
+        position: 'Track Lead - Health Technology',
         joinedAt: '2023-01-01T00:00:00Z',
         verified: true,
+        status: 'active',
         profile: {
             userId: '20',
             bio: 'Designing low-cost medical devices. Creating accessible healthcare technology for underserved communities.',
@@ -444,6 +650,19 @@ export const mockAnnouncements: Announcement[] = [
         publishedBy: '2',
         publishedAt: '2024-11-20T08:00:00Z',
         pinned: true,
+        author: {
+            id: '2',
+            email: 'treasurer@jkubs.org',
+            fullName: 'James Mwangi',
+            studentId: 'EXEC/002',
+            department: 'Microbiology',
+            yearOfStudy: 3,
+            role: 'executive_admin',
+            position: 'Treasurer',
+            joinedAt: '2023-02-15T00:00:00Z',
+            verified: true,
+            status: 'active'
+        }
     },
     {
         id: '2',
@@ -452,6 +671,19 @@ export const mockAnnouncements: Announcement[] = [
         publishedBy: '1',
         publishedAt: '2024-11-15T12:00:00Z',
         pinned: true,
+        author: {
+            id: '1',
+            email: 'chair@jkubs.org',
+            fullName: 'Shiphra Wangu',
+            studentId: 'EXEC/001',
+            department: 'Biochemistry',
+            yearOfStudy: 4,
+            role: 'executive_admin',
+            position: 'Chairman',
+            joinedAt: '2023-01-01T00:00:00Z',
+            verified: true,
+            status: 'active'
+        }
     },
     {
         id: '3',
@@ -460,6 +692,19 @@ export const mockAnnouncements: Announcement[] = [
         publishedBy: '4',
         publishedAt: '2024-11-10T14:30:00Z',
         pinned: false,
+        author: {
+            id: '4',
+            email: 'secretary@jkubs.org',
+            fullName: 'David Kamau',
+            studentId: 'EXEC/003',
+            department: 'Biotechnology',
+            yearOfStudy: 3,
+            role: 'executive_admin',
+            position: 'Secretary',
+            joinedAt: '2023-03-01T00:00:00Z',
+            verified: true,
+            status: 'active'
+        }
     },
 ];
 

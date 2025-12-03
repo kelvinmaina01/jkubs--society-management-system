@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { mockEvents } from '../mockData';
 import type { Event } from '../types';
+import EventCreateModal from './admin/EventCreateModal';
 
 interface EventListProps {
     onRSVP?: (eventId: string) => void;
@@ -8,6 +9,7 @@ interface EventListProps {
 
 const EventList = ({ onRSVP }: EventListProps) => {
     const [rsvpedEvents, setRsvpedEvents] = useState<string[]>([]);
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
     const handleRSVP = (eventId: string) => {
         if (rsvpedEvents.includes(eventId)) {
@@ -16,6 +18,13 @@ const EventList = ({ onRSVP }: EventListProps) => {
             setRsvpedEvents(prev => [...prev, eventId]);
             if (onRSVP) onRSVP(eventId);
         }
+    };
+
+    const handleCreateEvent = (eventData: Partial<Event>) => {
+        console.log('Creating event:', eventData);
+        // In a real app, this would make an API call
+        // For now, we'll just close the modal
+        setIsCreateModalOpen(false);
     };
 
     const formatDate = (dateString: string) => {
@@ -67,7 +76,10 @@ const EventList = ({ onRSVP }: EventListProps) => {
                         View and manage society events
                     </p>
                 </div>
-                <button className="btn btn-primary btn-lg">
+                <button
+                    onClick={() => setIsCreateModalOpen(true)}
+                    className="btn btn-primary btn-lg"
+                >
                     ➕ Create Event
                 </button>
             </div>
@@ -205,6 +217,12 @@ const EventList = ({ onRSVP }: EventListProps) => {
                     );
                 })}
             </div>
+
+            <EventCreateModal
+                isOpen={isCreateModalOpen}
+                onClose={() => setIsCreateModalOpen(false)}
+                onSubmit={handleCreateEvent}
+            />
         </div>
     );
 };
