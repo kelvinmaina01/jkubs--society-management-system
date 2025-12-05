@@ -17,15 +17,19 @@ const EventCreateModal = ({ isOpen, onClose, onSubmit }: EventCreateModalProps) 
         endAt: '',
         location: '',
         type: 'workshop',
-        capacity: ''
+        capacity: '',
+        price: ''
     });
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        const { price, capacity, ...otherData } = formData;
         onSubmit({
-            ...formData,
+            ...otherData,
             status: 'draft',
-            capacity: formData.capacity ? parseInt(formData.capacity) : undefined
+            capacity: capacity ? parseInt(capacity) : undefined,
+            price: price ? parseInt(price) : 0,
+            currency: 'KES'
         });
         onClose();
     };
@@ -124,6 +128,8 @@ const EventCreateModal = ({ isOpen, onClose, onSubmit }: EventCreateModalProps) 
                                             <option value="seminar">Seminar</option>
                                             <option value="social">Social</option>
                                             <option value="conference">Conference</option>
+                                            <option value="academic trip">Academic Trip</option>
+                                            <option> </option>
                                         </select>
                                     </div>
                                     <div>
@@ -138,6 +144,29 @@ const EventCreateModal = ({ isOpen, onClose, onSubmit }: EventCreateModalProps) 
                                             style={{
                                                 width: '100%',
                                                 padding: '10px',
+                                                borderRadius: '8px',
+                                                border: '1px solid #D1D5DB',
+                                                fontSize: '14px'
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Price */}
+                                <div>
+                                    <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#374151', marginBottom: '8px' }}>
+                                        Price (KES) - Optional
+                                    </label>
+                                    <div style={{ position: 'relative' }}>
+                                        <span style={{ position: 'absolute', left: '12px', top: '10px', color: '#9CA3AF', fontSize: '14px' }}>KES</span>
+                                        <input
+                                            type="number"
+                                            value={formData.price}
+                                            onChange={e => setFormData({ ...formData, price: e.target.value })}
+                                            placeholder="0 for free events"
+                                            style={{
+                                                width: '100%',
+                                                padding: '10px 12px 10px 45px',
                                                 borderRadius: '8px',
                                                 border: '1px solid #D1D5DB',
                                                 fontSize: '14px'

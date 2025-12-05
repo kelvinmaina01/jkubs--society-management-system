@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import type { User, UserRole } from '../../types';
-import { mockUsers } from '../../mockData';
+
 import Card from '../ui/Card';
 import Button from '../ui/Button';
 import Badge from '../ui/Badge';
@@ -10,7 +10,7 @@ import { Check, X, Shield, User as UserIcon } from 'lucide-react';
 import { useNotification } from '../../contexts/NotificationContext';
 
 const MemberApprovalQueue = () => {
-    const { addNotification } = useNotification();
+    const { success, info } = useNotification();
     const [pendingUsers, setPendingUsers] = useState<User[]>([
         // Mock pending users for demonstration
         {
@@ -56,14 +56,14 @@ const MemberApprovalQueue = () => {
 
         // In a real app, this would make an API call
         setPendingUsers(prev => prev.filter(u => u.id !== selectedUser.id));
-        addNotification('success', `${selectedUser.fullName} approved as ${assignRole}`);
+        success(`${selectedUser.fullName} approved as ${assignRole}`);
         setIsModalOpen(false);
         setSelectedUser(null);
     };
 
     const handleReject = (userId: string) => {
         setPendingUsers(prev => prev.filter(u => u.id !== userId));
-        addNotification('info', 'Member request rejected');
+        info('Member request rejected');
     };
 
     if (pendingUsers.length === 0) {
@@ -178,14 +178,14 @@ const MemberApprovalQueue = () => {
                             <input
                                 type="radio"
                                 name="role"
-                                value="committee"
-                                checked={assignRole === 'committee'}
-                                onChange={() => setAssignRole('committee')}
+                                value="event_coordinator"
+                                checked={assignRole === 'event_coordinator'}
+                                onChange={() => setAssignRole('event_coordinator')}
                             />
                             <Shield size={20} />
                             <div>
-                                <div style={{ fontWeight: 600 }}>Committee Member</div>
-                                <div style={{ fontSize: '12px', color: 'var(--color-text-secondary)' }}>Access to committee resources</div>
+                                <div style={{ fontWeight: 600 }}>Event Coordinator</div>
+                                <div style={{ fontSize: '12px', color: 'var(--color-text-secondary)' }}>Access to event management</div>
                             </div>
                         </label>
 
@@ -193,9 +193,9 @@ const MemberApprovalQueue = () => {
                             <input
                                 type="radio"
                                 name="role"
-                                value="research_lead"
-                                checked={assignRole === 'research_lead'}
-                                onChange={() => setAssignRole('research_lead')}
+                                value="track_lead"
+                                checked={assignRole === 'track_lead'}
+                                onChange={() => setAssignRole('track_lead')}
                             />
                             <Shield size={20} color="var(--color-primary-blue)" />
                             <div>

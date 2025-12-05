@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import type { User } from '../types';
-import { Menu, X, LogOut, LayoutDashboard, Calendar, Users, CreditCard, Bell, Briefcase, ChevronDown } from 'lucide-react';
+import { Menu, X, LogOut, LayoutDashboard, Calendar, Users, CreditCard, Bell, Briefcase, ChevronDown, BookOpen, User as UserIcon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface NavbarProps {
-    user: User;
+    user: User | null;
     currentPage: string;
     onNavigate: (page: string) => void;
     onLogout: () => void;
@@ -16,12 +16,13 @@ const Navbar = ({ user, currentPage, onNavigate, onLogout }: NavbarProps) => {
 
     const navItems = [
         { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={18} />, roles: ['all'] },
+        { id: 'tracks', label: 'Tracks', icon: <BookOpen size={18} />, roles: ['all'] },
         { id: 'events', label: 'Events', icon: <Calendar size={18} />, roles: ['all'] },
         { id: 'members', label: 'Members', icon: <Users size={18} />, roles: ['all'] },
         { id: 'payments', label: 'Payments', icon: <CreditCard size={18} />, roles: ['treasurer', 'admin', 'chairman'] },
         { id: 'announcements', label: 'Announcements', icon: <Bell size={18} />, roles: ['secretary', 'admin', 'chairman'] },
         { id: 'committees', label: 'Committees', icon: <Briefcase size={18} />, roles: ['secretary', 'admin', 'chairman'] },
-    ].filter(item => item.roles.includes('all') || item.roles.includes(user.role));
+    ].filter(item => item.roles.includes('all') || (user && item.roles.includes(user.role)));
 
     return (
         <nav style={{
@@ -98,106 +99,151 @@ const Navbar = ({ user, currentPage, onNavigate, onLogout }: NavbarProps) => {
 
                 {/* User Menu */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                    <div style={{ position: 'relative' }}>
+                    {!user ? (
                         <button
-                            onClick={() => setUserMenuOpen(!userMenuOpen)}
+                            onClick={() => window.location.href = '/login'}
                             style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '12px',
-                                background: 'white',
-                                border: '1px solid #E5E7EB',
-                                padding: '6px 12px',
-                                borderRadius: '30px',
-                                cursor: 'pointer',
-                                transition: 'all 0.2s ease'
+                                padding: '8px 16px',
+                                background: '#2563EB',
+                                color: 'white',
+                                borderRadius: '8px',
+                                border: 'none',
+                                fontSize: '14px',
+                                fontWeight: '600',
+                                cursor: 'pointer'
                             }}
                         >
-                            <div style={{
-                                width: '32px',
-                                height: '32px',
-                                borderRadius: '50%',
-                                background: '#F3F4F6',
-                                backgroundImage: `url(${user.profile?.photoUrl})`,
-                                backgroundSize: 'cover',
-                                backgroundPosition: 'center',
-                                border: '2px solid white',
-                                boxShadow: '0 0 0 1px #E5E7EB'
-                            }} />
-                            <div style={{ textAlign: 'left', display: 'none', md: 'block' }} className="user-info">
-                                <p style={{ fontSize: '13px', fontWeight: '600', color: '#111827', margin: 0 }}>{user.fullName.split(' ')[0]}</p>
-                                <p style={{ fontSize: '11px', color: '#6B7280', margin: 0, textTransform: 'capitalize' }}>{user.role}</p>
-                            </div>
-                            <ChevronDown size={14} color="#6B7280" />
+                            Member Login
                         </button>
+                    ) : (
+                        <div style={{ position: 'relative' }}>
+                            <button
+                                onClick={() => setUserMenuOpen(!userMenuOpen)}
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '12px',
+                                    background: 'white',
+                                    border: '1px solid #E5E7EB',
+                                    padding: '6px 12px',
+                                    borderRadius: '30px',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.2s ease'
+                                }}
+                            >
+                                <div style={{
+                                    width: '32px',
+                                    height: '32px',
+                                    borderRadius: '50%',
+                                    background: '#F3F4F6',
+                                    backgroundImage: `url(${user.profile?.photoUrl})`,
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center',
+                                    border: '2px solid white',
+                                    boxShadow: '0 0 0 1px #E5E7EB'
+                                }} />
+                                <div style={{ textAlign: 'left', display: 'none' }} className="hidden md:block">
+                                    <p style={{ fontSize: '13px', fontWeight: '600', color: '#111827', margin: 0 }}>{user.fullName.split(' ')[0]}</p>
+                                    <p style={{ fontSize: '11px', color: '#6B7280', margin: 0, textTransform: 'capitalize' }}>{user.role}</p>
+                                </div>
+                                <ChevronDown size={14} color="#6B7280" />
+                            </button>
 
-                        <AnimatePresence>
-                            {userMenuOpen && (
-                                <motion.div
-                                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                                    style={{
-                                        position: 'absolute',
-                                        top: '120%',
-                                        right: 0,
-                                        width: '200px',
-                                        background: 'white',
-                                        borderRadius: '12px',
-                                        boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-                                        border: '1px solid #E5E7EB',
-                                        padding: '8px',
-                                        zIndex: 1000
-                                    }}
-                                >
-                                    <div style={{ padding: '8px 12px', borderBottom: '1px solid #F3F4F6', marginBottom: '8px' }}>
-                                        <p style={{ fontSize: '14px', fontWeight: '600', color: '#111827', margin: 0 }}>{user.fullName}</p>
-                                        <p style={{ fontSize: '12px', color: '#6B7280', margin: 0 }}>{user.email}</p>
-                                    </div>
-                                    <button
-                                        onClick={onLogout}
+                            <AnimatePresence>
+                                {userMenuOpen && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
                                         style={{
-                                            width: '100%',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            gap: '8px',
-                                            padding: '8px 12px',
-                                            borderRadius: '6px',
-                                            border: 'none',
-                                            background: 'transparent',
-                                            color: '#EF4444',
-                                            fontSize: '14px',
-                                            fontWeight: '500',
-                                            cursor: 'pointer',
-                                            textAlign: 'left'
+                                            position: 'absolute',
+                                            top: '120%',
+                                            right: 0,
+                                            width: '200px',
+                                            background: 'white',
+                                            borderRadius: '12px',
+                                            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                                            border: '1px solid #E5E7EB',
+                                            padding: '8px',
+                                            zIndex: 1000
                                         }}
-                                        onMouseEnter={(e) => e.currentTarget.style.background = '#FEF2F2'}
-                                        onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                                     >
-                                        <LogOut size={16} />
-                                        Sign Out
-                                    </button>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-                    </div>
-
-                    {/* Mobile Menu Toggle */}
-                    <button
-                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                        className="mobile-menu-btn"
-                        style={{
-                            display: 'none',
-                            background: 'transparent',
-                            border: 'none',
-                            color: '#374151',
-                            cursor: 'pointer',
-                            padding: '8px'
-                        }}
-                    >
-                        {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                    </button>
+                                        <div style={{ padding: '8px 12px', borderBottom: '1px solid #F3F4F6', marginBottom: '8px' }}>
+                                            <p style={{ fontSize: '14px', fontWeight: '600', color: '#111827', margin: 0 }}>{user.fullName}</p>
+                                            <p style={{ fontSize: '12px', color: '#6B7280', margin: 0 }}>{user.email}</p>
+                                        </div>
+                                        <button
+                                            onClick={() => {
+                                                onNavigate('profile');
+                                                setUserMenuOpen(false);
+                                            }}
+                                            style={{
+                                                width: '100%',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: '8px',
+                                                padding: '8px 12px',
+                                                borderRadius: '6px',
+                                                border: 'none',
+                                                background: 'transparent',
+                                                color: '#374151',
+                                                fontSize: '14px',
+                                                fontWeight: '500',
+                                                cursor: 'pointer',
+                                                textAlign: 'left',
+                                                marginBottom: '4px'
+                                            }}
+                                            onMouseEnter={(e) => e.currentTarget.style.background = '#F3F4F6'}
+                                            onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                                        >
+                                            <UserIcon size={16} />
+                                            My Profile
+                                        </button>
+                                        <button
+                                            onClick={onLogout}
+                                            style={{
+                                                width: '100%',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: '8px',
+                                                padding: '8px 12px',
+                                                borderRadius: '6px',
+                                                border: 'none',
+                                                background: 'transparent',
+                                                color: '#EF4444',
+                                                fontSize: '14px',
+                                                fontWeight: '500',
+                                                cursor: 'pointer',
+                                                textAlign: 'left'
+                                            }}
+                                            onMouseEnter={(e) => e.currentTarget.style.background = '#FEF2F2'}
+                                            onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                                        >
+                                            <LogOut size={16} />
+                                            Sign Out
+                                        </button>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+                    )}
                 </div>
+
+                {/* Mobile Menu Toggle */}
+                <button
+                    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                    className="mobile-menu-btn"
+                    style={{
+                        display: 'none',
+                        background: 'transparent',
+                        border: 'none',
+                        color: '#374151',
+                        cursor: 'pointer',
+                        padding: '8px'
+                    }}
+                >
+                    {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                </button>
             </div>
 
             {/* Mobile Navigation */}
@@ -261,8 +307,10 @@ const Navbar = ({ user, currentPage, onNavigate, onLogout }: NavbarProps) => {
                     .mobile-menu-btn {
                         display: block !important;
                     }
-                    .user-info {
-                        display: none !important;
+                }
+                @media (min-width: 768px) {
+                    .hidden.md\\:block {
+                        display: block !important;
                     }
                 }
             `}</style>

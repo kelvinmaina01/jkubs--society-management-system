@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { X, User, Mail, Lock, Briefcase, ChevronDown } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { X, User as UserIcon, Mail, Lock, Briefcase, ChevronDown } from 'lucide-react';
 import Button from '../ui/Button';
-import type { UserRole } from '../../types';
+import type { User, UserRole } from '../../types';
 import { mockTracks } from '../../mockData';
 
 interface AddUserModalProps {
     isOpen: boolean;
     onClose: () => void;
-    onAddUser: (userData: any) => void;
+    onAddUser: (userData: Partial<User>) => void;
 }
 
 const AddUserModal = ({ isOpen, onClose, onAddUser }: AddUserModalProps) => {
@@ -74,7 +74,7 @@ const AddUserModal = ({ isOpen, onClose, onAddUser }: AddUserModalProps) => {
                     <div>
                         <label style={{ display: 'block', marginBottom: '8px', fontWeight: 500, color: 'var(--color-text-primary)' }}>Full Name</label>
                         <div style={{ position: 'relative' }}>
-                            <User size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-secondary)' }} />
+                            <UserIcon size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-secondary)' }} />
                             <input
                                 type="text"
                                 required
@@ -156,17 +156,16 @@ const AddUserModal = ({ isOpen, onClose, onAddUser }: AddUserModalProps) => {
                                     }}
                                 >
                                     <option value="member">Member</option>
-                                    <option value="research_lead">Track Lead</option>
-                                    <option value="admin">Admin</option>
-                                    <option value="chairman">Chairman</option>
-                                    <option value="secretary">Secretary</option>
-                                    <option value="treasurer">Treasurer</option>
+                                    <option value="track_lead">Track Lead</option>
+                                    <option value="executive_admin">Executive Admin</option>
+                                    <option value="super_admin">Super Admin</option>
+                                    <option value="event_coordinator">Event Coordinator</option>
                                 </select>
                                 <ChevronDown size={16} style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-secondary)', pointerEvents: 'none' }} />
                             </div>
                         </div>
 
-                        {formData.role === 'research_lead' && (
+                        {formData.role === 'track_lead' && (
                             <div>
                                 <label style={{ display: 'block', marginBottom: '8px', fontWeight: 500, color: 'var(--color-text-primary)' }}>Track</label>
                                 <div style={{ position: 'relative' }}>

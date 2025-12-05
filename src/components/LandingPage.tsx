@@ -1,16 +1,22 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { mockEvents, mockUsers, mockTracks, mockGalleryImages } from '../mockData';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowUp } from 'lucide-react';
+import { mockEvents, mockUsers, mockGalleryImages, mockPartners, mockPastEvents, mockTracks } from '../mockData';
 import type { Event, User } from '../types';
 
 // Components
-import Hero from './landing/Hero';
-import AboutSection from './landing/AboutSection';
+import HeroSection from './landing/HeroSection';
+import StatsCards from './landing/StatsCards';
 import EventsSection from './landing/EventsSection';
 import TracksSection from './landing/TracksSection';
-import OrganizersSection from './landing/OrganizersSection';
+import TeamSection from './landing/TeamSection';
+import PartnersSection from './landing/PartnersSection';
 import GallerySection from './landing/GallerySection';
 import ContactSection from './landing/ContactSection';
+import PastEventsSection from './landing/PastEventsSection';
+import CTABanner from './landing/CTABanner';
+import NewsletterCTA from './landing/NewsletterCTA';
+import JoinTeamCTA from './landing/JoinTeamCTA';
 import OrganizerProfile from './OrganizerProfile';
 
 interface LandingPageProps {
@@ -21,18 +27,26 @@ const LandingPage = ({ onLoginClick }: LandingPageProps) => {
     const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
     const [selectedOrganizer, setSelectedOrganizer] = useState<User | null>(null);
     const [showCoC, setShowCoC] = useState(false);
+    const [showScrollTop, setShowScrollTop] = useState(false);
 
-    // Data filtering
+    useEffect(() => {
+        const handleScroll = () => {
+            setShowScrollTop(window.scrollY > 400);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
     const publicEvents = mockEvents
         .filter(e => e.status === 'published' && new Date(e.startAt) > new Date())
-        .slice(0, 3);
+        .slice(0, 6);
 
     const pastEvents = mockEvents
         .filter(e => new Date(e.startAt) < new Date() && e.status !== 'cancelled')
         .slice(0, 3);
 
-    const trackLeads = mockUsers.filter(u => u.profile?.track);
-    const execTeam = mockUsers.filter(u => ['chairman', 'secretary', 'treasurer'].includes(u.role));
+    const trackLeads = mockUsers.filter(u => u.role === 'track_lead');
+    const execTeam = mockUsers.filter(u => u.role === 'executive_admin');
 
     return (
         <motion.div
@@ -53,82 +67,36 @@ const LandingPage = ({ onLoginClick }: LandingPageProps) => {
                 zIndex: 1000,
                 height: '72px',
                 display: 'flex',
-                alignItems: 'center'
+                alignItems: 'center',
+                padding: '0 24px'
             }}>
-                <div className="container" style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    width: '100%',
-                    maxWidth: '1280px',
-                    margin: '0 auto',
-                    padding: '0 24px'
-                }}>
+                <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <div style={{
-                            width: '40px',
-                            height: '40px',
-                            background: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)',
-                            borderRadius: '10px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            color: 'white',
-                            fontWeight: '700',
-                            fontSize: '18px',
-                            boxShadow: '0 4px 6px -1px rgba(59, 130, 246, 0.2)'
-                        }}>
-                            JK
-                        </div>
-                        <div style={{ lineHeight: 1.2 }}>
-                            <h1 style={{ fontSize: '18px', fontWeight: '700', color: '#111827', margin: 0 }}>JKUBS</h1>
-                            <p style={{ fontSize: '12px', color: '#6B7280', margin: 0, fontWeight: '500' }}>Society Management</p>
-                        </div>
+                        <img src="/logo.png" alt="JKUBS Logo" style={{ height: '40px' }} onError={(e) => e.currentTarget.style.display = 'none'} />
+                        <span style={{ fontSize: '20px', fontWeight: '700', color: '#1A73E8' }}>JKUBS</span>
                     </div>
 
-                    <div style={{ display: 'flex', gap: '32px', alignItems: 'center' }}>
-                        <nav className="hidden md:flex" style={{ gap: '8px' }}>
-                            {['Events', 'Tracks', 'Organizers', 'Photos'].map((item) => (
-                                <a
-                                    key={item}
-                                    href={`#${item.toLowerCase()}`}
-                                    style={{
-                                        color: '#4B5563',
-                                        textDecoration: 'none',
-                                        fontWeight: 500,
-                                        fontSize: '14px',
-                                        padding: '8px 16px',
-                                        borderRadius: '8px',
-                                        transition: 'all 0.2s'
-                                    }}
-                                    onMouseEnter={(e) => {
-                                        e.currentTarget.style.color = '#2563EB';
-                                        e.currentTarget.style.background = '#EFF6FF';
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.currentTarget.style.color = '#4B5563';
-                                        e.currentTarget.style.background = 'transparent';
-                                    }}
-                                >
-                                    {item}
-                                </a>
-                            ))}
-                        </nav>
+                    <nav style={{ display: 'flex', gap: '32px', alignItems: 'center' }}>
+                        <a href="#" style={{ textDecoration: 'none', color: '#374151', fontWeight: '500' }}>Home</a>
+                        <a href="#events" style={{ textDecoration: 'none', color: '#374151', fontWeight: '500' }}>Events</a>
+                        <a href="#tracks" style={{ textDecoration: 'none', color: '#374151', fontWeight: '500' }}>Tracks</a>
+                        <a href="#team" style={{ textDecoration: 'none', color: '#374151', fontWeight: '500' }}>Team</a>
+                        <a href="#contact" style={{ textDecoration: 'none', color: '#374151', fontWeight: '500' }}>Contact</a>
+                    </nav>
 
+                    <div style={{ display: 'flex', gap: '16px' }}>
                         <motion.button
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
                             onClick={onLoginClick}
                             style={{
-                                padding: '10px 20px',
-                                background: '#2563EB',
+                                padding: '8px 20px',
+                                background: '#1A73E8',
                                 color: 'white',
-                                borderRadius: '8px',
-                                fontSize: '14px',
-                                fontWeight: '600',
                                 border: 'none',
-                                cursor: 'pointer',
-                                boxShadow: '0 4px 6px -1px rgba(37, 99, 235, 0.2)'
+                                borderRadius: '8px',
+                                fontWeight: '600',
+                                cursor: 'pointer'
                             }}
                         >
                             Member Login
@@ -138,18 +106,24 @@ const LandingPage = ({ onLoginClick }: LandingPageProps) => {
             </header>
 
             <main>
-                <Hero />
-                <AboutSection />
+                <HeroSection />
+                <StatsCards />
                 <EventsSection
                     events={publicEvents}
                     pastEvents={pastEvents}
                     onEventClick={setSelectedEvent}
                 />
+                <NewsletterCTA />
                 <TracksSection tracks={mockTracks} />
-                <OrganizersSection
-                    execTeam={execTeam}
-                    trackLeads={trackLeads}
-                    onOrganizerClick={setSelectedOrganizer}
+                <JoinTeamCTA />
+                <TeamSection executives={execTeam} trackLeads={trackLeads} />
+                <PastEventsSection pastEvents={mockPastEvents} />
+                <PartnersSection partners={mockPartners} />
+                <CTABanner
+                    title="Partner With JKUBS"
+                    description="Collaborate with us to shape the future of biochemistry education and research in Kenya. Join leading institutions and organizations supporting our mission."
+                    buttonText="Get in Touch"
+                    buttonLink="/partner"
                 />
                 <GallerySection images={mockGalleryImages} />
                 <ContactSection />
@@ -232,7 +206,7 @@ const LandingPage = ({ onLoginClick }: LandingPageProps) => {
                     >
                         <div style={{
                             height: '200px',
-                            background: 'var(--gradient-primary)',
+                            background: 'linear-gradient(135deg, #1A73E8 0%, #0B5FFF 100%)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -258,7 +232,7 @@ const LandingPage = ({ onLoginClick }: LandingPageProps) => {
                             </p>
                             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '16px' }}>
                                 <button className="btn btn-ghost" onClick={() => setSelectedEvent(null)}>Close</button>
-                                <button className="btn btn-primary bg-gradient-primary">RSVP Now</button>
+                                <button className="btn btn-primary" style={{ background: '#1A73E8', color: 'white' }}>RSVP Now</button>
                             </div>
                         </div>
                     </motion.div>
@@ -301,7 +275,7 @@ const LandingPage = ({ onLoginClick }: LandingPageProps) => {
                                 In the interest of fostering an open and welcoming environment, we as contributors and maintainers pledge to making participation in our project and our community a harassment-free experience for everyone.
                             </p>
                             <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '32px' }}>
-                                <button className="btn btn-primary" onClick={() => setShowCoC(false)}>Close</button>
+                                <button className="btn btn-primary" style={{ background: '#1A73E8', color: 'white' }} onClick={() => setShowCoC(false)}>Close</button>
                             </div>
                         </div>
                     </motion.div>
@@ -315,6 +289,38 @@ const LandingPage = ({ onLoginClick }: LandingPageProps) => {
                     onClose={() => setSelectedOrganizer(null)}
                 />
             )}
+            {/* Scroll to Top Button */}
+            <AnimatePresence>
+                {showScrollTop && (
+                    <motion.button
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                        style={{
+                            position: 'fixed',
+                            bottom: '32px',
+                            right: '32px',
+                            width: '48px',
+                            height: '48px',
+                            borderRadius: '50%',
+                            background: '#1A73E8',
+                            color: 'white',
+                            border: 'none',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            cursor: 'pointer',
+                            boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                            zIndex: 1000
+                        }}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                    >
+                        <ArrowUp size={24} />
+                    </motion.button>
+                )}
+            </AnimatePresence>
         </motion.div>
     );
 };

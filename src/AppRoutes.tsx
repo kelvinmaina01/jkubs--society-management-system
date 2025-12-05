@@ -15,6 +15,12 @@ import CommitteeList from './components/CommitteeList';
 import LoginPage from './components/LoginPage';
 import AdminLoginPage from './components/AdminLoginPage';
 import LandingPage from './components/LandingPage';
+import PublicEventsPage from './components/public/PublicEventsPage';
+import TracksOverview from './components/public/TracksOverview';
+import TrackDetailPage from './components/public/TrackDetailPage';
+import TeamPage from './components/public/TeamPage';
+import MemberProfile from './components/members/MemberProfile';
+import MemberTracks from './components/members/MemberTracks';
 
 // Route Guard Components
 interface PrivateRouteProps {
@@ -69,7 +75,7 @@ function AppContent() {
     // Determine if we're in admin portal based on route
     const isAdminPortal = location.pathname.startsWith('/admin');
     const isMemberPortal = location.pathname.startsWith('/members');
-    const isPublicSite = !isAdminPortal && !isMemberPortal && isAuthenticated;
+
 
     // Get current page ID from path
     const getCurrentPage = () => {
@@ -140,6 +146,50 @@ function AppContent() {
                                 </PageWrapper>
                             }
                         />
+                        <Route
+                            path="/events"
+                            element={
+                                <PageWrapper>
+                                    <div className="pt-20">
+                                        <Navbar user={null} currentPage="events" onNavigate={handleNavigate} onLogout={() => { }} />
+                                        <PublicEventsPage />
+                                    </div>
+                                </PageWrapper>
+                            }
+                        />
+                        <Route
+                            path="/tracks"
+                            element={
+                                <PageWrapper>
+                                    <div className="pt-20">
+                                        <Navbar user={null} currentPage="tracks" onNavigate={handleNavigate} onLogout={() => { }} />
+                                        <TracksOverview />
+                                    </div>
+                                </PageWrapper>
+                            }
+                        />
+                        <Route
+                            path="/tracks/:trackId"
+                            element={
+                                <PageWrapper>
+                                    <div className="pt-20">
+                                        <Navbar user={null} currentPage="tracks" onNavigate={handleNavigate} onLogout={() => { }} />
+                                        <TrackDetailPage />
+                                    </div>
+                                </PageWrapper>
+                            }
+                        />
+                        <Route
+                            path="/team"
+                            element={
+                                <PageWrapper>
+                                    <div className="pt-20">
+                                        <Navbar user={null} currentPage="team" onNavigate={handleNavigate} onLogout={() => { }} />
+                                        <TeamPage />
+                                    </div>
+                                </PageWrapper>
+                            }
+                        />
 
                         {/* ========== MEMBER DASHBOARD ROUTES (/members/*) ========== */}
                         <Route
@@ -173,6 +223,38 @@ function AppContent() {
                                 <MemberRoute>
                                     <PageWrapper>
                                         <AnnouncementList />
+                                    </PageWrapper>
+                                </MemberRoute>
+                            }
+                        />
+                        <Route
+                            path="/members/profile"
+                            element={
+                                <MemberRoute>
+                                    <PageWrapper>
+                                        <MemberProfile />
+                                    </PageWrapper>
+                                </MemberRoute>
+                            }
+                        />
+                        <Route
+                            path="/members/tracks"
+                            element={
+                                <MemberRoute>
+                                    <PageWrapper>
+                                        <MemberTracks />
+                                    </PageWrapper>
+                                </MemberRoute>
+                            }
+                        />
+                        <Route
+                            path="/members/tracks/:trackId"
+                            element={
+                                <MemberRoute>
+                                    <PageWrapper>
+                                        <div className="pt-20">
+                                            <TrackDetailPage />
+                                        </div>
                                     </PageWrapper>
                                 </MemberRoute>
                             }

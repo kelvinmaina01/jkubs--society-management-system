@@ -38,7 +38,7 @@ const MemberDirectory = () => {
                                 <p style={{ fontSize: 'var(--font-size-small)', color: '#6B7280', marginBottom: 'var(--space-1)' }}>
                                     {user.studentId}
                                 </p>
-                                <span className={`badge badge-${user.role === 'admin' ? 'error' : user.role === 'committee' ? 'warning' : 'primary'}`}>
+                                <span className={`badge badge-${['super_admin', 'executive_admin'].includes(user.role) ? 'error' : ['track_lead', 'event_coordinator'].includes(user.role) ? 'warning' : 'primary'}`}>
                                     {user.role}
                                 </span>
                             </div>

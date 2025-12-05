@@ -75,7 +75,9 @@ export interface Event {
     imageUrl?: string;
     rsvpCount?: number;
     attendeeCount?: number;
-    eventType?: 'Workshop' | 'Study Group' | 'Meetup' | 'Conference' | 'Social';
+    eventType?: 'Workshop' | 'Study Group' | 'Meetup' | 'Conference' | 'Social' | 'Field Visit' | 'Info Session' | 'Seminar' | 'Networking' | 'Hackathon' | 'Career Fair' | 'Lecture';
+    price?: number;
+    currency?: string;
 }
 
 export interface RSVP {
@@ -92,10 +94,12 @@ export interface Payment {
     userId: string;
     amount: number;
     currency: string;
+    type?: 'dues' | 'event' | 'donation' | 'other';
     method: PaymentMethod;
     reference: string;
     status: PaymentStatus;
     createdAt: string;
+    eventId?: string;
     user?: User;
 }
 
@@ -156,41 +160,7 @@ export interface DashboardStats {
     recentAnnouncements: number;
 }
 
-// Track System Interfaces
-export interface TrackEnrollment {
-    id: string;
-    trackId: string;
-    userId: string;
-    enrolledAt: string;
-    status: 'active' | 'completed' | 'paused' | 'withdrawn';
-    progress: number; // 0-100
-    completedAt?: string;
-    track?: Track;
-    user?: User;
-}
 
-export interface TrackContent {
-    id: string;
-    trackId: string;
-    title: string;
-    description: string;
-    contentType: 'lesson' | 'challenge' | 'resource' | 'quiz';
-    order: number;
-    duration?: number; // minutes
-    createdBy: string;
-    createdAt: string;
-    track?: Track;
-}
-
-export interface TrackProgress {
-    id: string;
-    enrollmentId: string;
-    contentId: string;
-    userId: string;
-    completedAt?: string;
-    status: 'not_started' | 'in_progress' | 'completed';
-    score?: number;
-}
 
 // Badge System
 export interface Badge {
@@ -227,3 +197,81 @@ export interface Certificate {
     track?: Track;
     event?: Event;
 }
+
+// Student Stories - Success stories and achievements
+export interface Story {
+    id: string;
+    title: string;
+    studentName: string;
+    studentId?: string;
+    achievement: string;
+    story: string;
+    tags: string[];
+    photoUrl?: string;
+    publishedAt: string;
+    featured?: boolean;
+}
+
+// Track Enrollment System
+export interface TrackEnrollment {
+    id: string;
+    userId: string;
+    trackId: string;
+    enrolledAt: string;
+    status: 'active' | 'completed' | 'dropped';
+    progress: number; // 0-100
+    completedModules: string[]; // Array of module IDs
+    user?: User;
+    track?: Track;
+}
+
+// Track Modules/Content System
+export interface TrackModule {
+    id: string;
+    trackId: string;
+    title: string;
+    description: string;
+    content: string; // Rich text/markdown content
+    order: number;
+    duration?: string; // e.g., "2 hours"
+    resources?: ModuleResource[];
+    quiz?: Quiz;
+    published: boolean;
+    createdAt: string;
+}
+
+export interface ModuleResource {
+    id: string;
+    title: string;
+    type: 'video' | 'pdf' | 'link' | 'file';
+    url: string;
+    description?: string;
+}
+
+export interface Quiz {
+    id: string;
+    moduleId: string;
+    questions: QuizQuestion[];
+    passingScore: number; // e.g., 70
+}
+
+export interface QuizQuestion {
+    id: string;
+    question: string;
+    options: string[];
+    correctAnswer: number; // Index of correct option
+    explanation?: string;
+}
+
+// Module Progress Tracking
+export interface ModuleProgress {
+    id: string;
+    enrollmentId: string;
+    moduleId: string;
+    userId: string;
+    status: 'not_started' | 'in_progress' | 'completed';
+    completedAt?: string;
+    quizScore?: number;
+    timeSpent?: number; // minutes
+}
+

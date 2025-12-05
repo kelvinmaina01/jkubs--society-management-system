@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+
 import type { DashboardStats, Event, Announcement, User } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import { Permission } from '../utils/permissions';
@@ -8,7 +8,7 @@ import UserManagement from './admin/UserManagement';
 import Button from './ui/Button';
 import Card from './ui/Card';
 import Modal from './ui/Modal';
-import { Plus, Calendar, Users, DollarSign, Bell } from 'lucide-react';
+import { Plus, Calendar, Users, DollarSign } from 'lucide-react';
 import { useNotification } from '../contexts/NotificationContext';
 
 interface DashboardProps {
@@ -20,12 +20,12 @@ interface DashboardProps {
 
 const Dashboard = ({ stats, events, announcements: initialAnnouncements, user }: DashboardProps) => {
     const { hasPermission } = useAuth();
-    const { addNotification } = useNotification();
+    const { success: notifySuccess } = useNotification();
     const [announcements, setAnnouncements] = useState(initialAnnouncements);
     const [isAnnouncementModalOpen, setIsAnnouncementModalOpen] = useState(false);
     const [newAnnouncement, setNewAnnouncement] = useState({ title: '', body: '' });
 
-    const isExec = ['admin', 'chairman', 'secretary', 'treasurer'].includes(user.role);
+    const isExec = ['super_admin', 'executive_admin'].includes(user.role);
     const canManageUsers = hasPermission(Permission.MANAGE_USERS);
     const canApproveMembers = hasPermission(Permission.APPROVE_MEMBERS);
     const canCreateAnnouncement = hasPermission(Permission.CREATE_ANNOUNCEMENT);
@@ -44,7 +44,7 @@ const Dashboard = ({ stats, events, announcements: initialAnnouncements, user }:
         };
 
         setAnnouncements([announcement, ...announcements]);
-        addNotification('success', 'Announcement published successfully');
+        notifySuccess('Announcement published successfully');
         setIsAnnouncementModalOpen(false);
         setNewAnnouncement({ title: '', body: '' });
     };

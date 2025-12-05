@@ -1,0 +1,17 @@
+[33mcommit 5ead0347731732c47033a89ef92b9329d4d3defd[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Kelvin Maina <kelvin.reallife8@gmail.com>
+Date:   Wed Dec 3 16:24:46 2025 +0300
+
+    major refractor to meet the fkg MVP
+
+[33mcommit 4b85dddeed4a4d5fdd11c843de3aebf25fb4e5e8[m
+Author: Kelvin Maina <kelvin.reallife8@gmail.com>
+Date:   Sat Nov 29 14:25:16 2025 +0300
+
+    added more features
+
+[33mcommit faf200fe560f568042d44a0920d8da298a4eab2e[m
+Author: Kelvin Maina <kelvin.reallife8@gmail.com>
+Date:   Sat Nov 29 10:12:48 2025 +0300
+
+    firts project commit

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { mockEvents } from '../mockData';
 import type { Event } from '../types';
 import EventCreateModal from './admin/EventCreateModal';
+import PaymentModal from './PaymentModal';
 
 interface EventListProps {
     onRSVP?: (eventId: string) => void;
@@ -10,13 +11,34 @@ interface EventListProps {
 const EventList = ({ onRSVP }: EventListProps) => {
     const [rsvpedEvents, setRsvpedEvents] = useState<string[]>([]);
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+    const [paymentModalOpen, setPaymentModalOpen] = useState(false);
+    const [selectedEventForPayment, setSelectedEventForPayment] = useState<Event | null>(null);
 
-    const handleRSVP = (eventId: string) => {
-        if (rsvpedEvents.includes(eventId)) {
-            setRsvpedEvents(prev => prev.filter(id => id !== eventId));
+    const handleRSVP = (event: Event) => {
+        if (rsvpedEvents.includes(event.id)) {
+            // Cancel RSVP
+            setRsvpedEvents(prev => prev.filter(id => id !== event.id));
         } else {
-            setRsvpedEvents(prev => [...prev, eventId]);
-            if (onRSVP) onRSVP(eventId);
+            // Check if payment is required
+            if (event.price && event.price > 0) {
+                setSelectedEventForPayment(event);
+                setPaymentModalOpen(true);
+            } else {
+                // Free event, direct RSVP
+                completeRSVP(event.id);
+            }
+        }
+    };
+
+    const completeRSVP = (eventId: string) => {
+        setRsvpedEvents(prev => [...prev, eventId]);
+        if (onRSVP) onRSVP(eventId);
+    };
+
+    const handlePaymentSuccess = () => {
+        if (selectedEventForPayment) {
+            completeRSVP(selectedEventForPayment.id);
+            setSelectedEventForPayment(null);
         }
     };
 
@@ -173,6 +195,14 @@ const EventList = ({ onRSVP }: EventListProps) => {
                                         </span>
                                     </div>
                                 )}
+                                {event.price && event.price > 0 && (
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+                                        <span>💰</span>
+                                        <span style={{ fontSize: 'var(--font-size-small)', color: '#059669', fontWeight: '600' }}>
+                                            KES {event.price.toLocaleString()}
+                                        </span>
+                                    </div>
+                                )}
                             </div>
 
                             {/* Event Stats */}
@@ -202,11 +232,14 @@ const EventList = ({ onRSVP }: EventListProps) => {
                             }}>
                                 {event.status === 'published' && new Date(event.startAt) > new Date() && (
                                     <button
-                                        onClick={() => handleRSVP(event.id)}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleRSVP(event);
+                                        }}
                                         className={`btn ${isRsvped ? 'btn-success' : 'btn-primary'}`}
                                         style={{ flex: 1 }}
                                     >
-                                        {isRsvped ? '✓ RSVP Confirmed' : 'RSVP Now'}
+                                        {isRsvped ? '✓ Registered' : (event.price && event.price > 0 ? `Pay KES ${event.price}` : 'RSVP Now')}
                                     </button>
                                 )}
                                 <button className="btn btn-outline" style={{ flex: 1 }}>
@@ -223,6 +256,17 @@ const EventList = ({ onRSVP }: EventListProps) => {
                 onClose={() => setIsCreateModalOpen(false)}
                 onSubmit={handleCreateEvent}
             />
+
+            {/* Payment Modal */}
+            {selectedEventForPayment && (
+                <PaymentModal
+                    isOpen={paymentModalOpen}
+                    onClose={() => setPaymentModalOpen(false)}
+                    onSuccess={handlePaymentSuccess}
+                    amount={selectedEventForPayment.price || 0}
+                    eventName={selectedEventForPayment.title}
+                />
+            )}
         </div>
     );
 };

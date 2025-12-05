@@ -8,7 +8,7 @@ import { useNotification } from './NotificationContext';
 interface AuthContextType {
     user: User | null;
     isAuthenticated: boolean;
-    login: (email: string, password: string) => Promise<boolean>;
+    login: (email: string, password: string) => Promise<User | null>;
     logout: () => void;
     hasPermission: (permission: Permission) => boolean;
 }
@@ -42,7 +42,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         }
     }, []);
 
-    const login = async (email: string, password: string): Promise<boolean> => {
+    const login = async (email: string, password: string): Promise<User | null> => {
         try {
             // Simulate API call
             await new Promise(resolve => setTimeout(resolve, 1000));
@@ -68,24 +68,27 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                         userId: `test-${Date.now()}`,
                         bio: 'Auto-generated test account',
                         photoUrl: `https://ui-avatars.com/api/?name=Test+User&background=random`,
-                        duesStatus: 'pending',
+                        duesStatus: 'none',
                         location: 'Test Lab'
                     }
                 };
             }
 
-            if (userToLogin.status !== 'active') {
+            // At this point userToLogin is guaranteed to be a User object
+            const finalUser = userToLogin as User;
+
+            if (finalUser.status !== 'active') {
                 error('Login Failed', 'Your account is pending approval or suspended.');
-                return false;
+                return null;
             }
 
-            setUser(userToLogin);
-            localStorage.setItem('user', JSON.stringify(userToLogin));
-            success('Welcome back!', `Logged in as ${userToLogin.fullName}`);
-            return true;
+            setUser(finalUser);
+            localStorage.setItem('user', JSON.stringify(finalUser));
+            success('Welcome back!', `Logged in as ${finalUser.fullName}`);
+            return finalUser;
         } catch (err) {
             error('Login Error', 'An unexpected error occurred');
-            return false;
+            return null;
         }
     };
 

@@ -4,7 +4,7 @@ import { mockUsers } from '../../mockData';
 import Card from '../ui/Card';
 import Button from '../ui/Button';
 import Badge from '../ui/Badge';
-import { Search, Filter, Trash2, Edit } from 'lucide-react';
+import { Search, Trash2, Edit } from 'lucide-react';
 import { useNotification } from '../../contexts/NotificationContext';
 import AddUserModal from './AddUserModal';
 
@@ -12,7 +12,31 @@ const UserManagement = () => {
     const { success } = useNotification();
     const [users, setUsers] = useState<User[]>(mockUsers);
     const [searchTerm, setSearchTerm] = useState('');
+    const [roleFilter, setRoleFilter] = useState('all');
     const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
+
+    const handleDelete = (userId: string) => {
+        if (confirm('Are you sure you want to delete this user?')) {
+            setUsers(users.filter(u => u.id !== userId));
+            success('User Deleted', 'User has been removed successfully');
+        }
+    };
+
+    const getRoleBadgeVariant = (role: UserRole) => {
+        switch (role) {
+            case 'super_admin': return 'error';
+            case 'executive_admin': return 'primary';
+            case 'track_lead': return 'warning';
+            default: return 'neutral';
+        }
+    };
+
+    const filteredUsers = users.filter(user => {
+        const matchesSearch = user.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            user.email.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesRole = roleFilter === 'all' || user.role === roleFilter;
+        return matchesSearch && matchesRole;
+    });
 
     const handleAddUser = (userData: any) => {
         const newUser: User = {
@@ -74,9 +98,10 @@ const UserManagement = () => {
                     >
                         <option value="all">All Roles</option>
                         <option value="member">Members</option>
-                        <option value="admin">Admins</option>
-                        <option value="committee">Committee</option>
-                        <option value="research_lead">Track Leads</option>
+                        <option value="super_admin">Super Admins</option>
+                        <option value="executive_admin">Executive Admins</option>
+                        <option value="track_lead">Track Leads</option>
+                        <option value="event_coordinator">Event Coordinators</option>
                     </select>
 
                     <Button onClick={() => setIsAddUserModalOpen(true)}>

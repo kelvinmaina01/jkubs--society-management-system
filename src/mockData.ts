@@ -1,5 +1,5 @@
 // Mock data for JKUBS Society Management System
-import type { User, Event, Payment, Committee, Announcement, DashboardStats, Track, Badge, Certificate, TrackEnrollment } from './types';
+import type { User, Event, Payment, Committee, Announcement, DashboardStats, Track } from './types';
 
 // 17 Tracks organized by category
 export const mockTracks: Track[] = [
@@ -724,7 +724,7 @@ export const setCurrentUser = (user: User) => {
     currentUser = user;
 };
 
-export const loginUser = (email: string, password: string): User | null => {
+export const loginUser = (email: string, _password: string): User | null => {
     // Mock authentication - in production, this would call an API
     const user = mockUsers.find(u => u.email === email);
     if (user) {
@@ -755,6 +755,267 @@ export const mockSponsors = [
         id: '3',
         name: 'Science Africa',
         logoUrl: 'https://placehold.co/200x80/e2e8f0/1e293b?text=Science+Africa',
-        website: '#'
     }
 ];
+
+// Partner interface
+export interface Partner {
+    id: string;
+    name: string;
+    logo: string;
+    partnershipType?: string;
+    description?: string;
+    website?: string;
+    since?: string;
+}
+
+// Partners
+export const mockPartners: Partner[] = [
+    {
+        id: '1',
+        name: 'KEMRI',
+        logo: 'https://placehold.co/200x80/e2e8f0/1e293b?text=KEMRI',
+        partnershipType: 'research',
+        description: 'Kenya Medical Research Institute',
+        website: 'https://www.kemri.go.ke',
+        since: '2020'
+    },
+    {
+        id: '2',
+        name: 'JKUAT',
+        logo: 'https://upload.wikimedia.org/wikipedia/commons/2/28/Jomo_Kenyatta_University_of_Agriculture_and_Technology_Logo.png',
+        partnershipType: 'academic',
+        description: 'Jomo Kenyatta University of Agriculture and Technology',
+        website: 'http://www.jkuat.ac.ke',
+        since: '2018'
+    },
+    {
+        id: '3',
+        name: 'Science Africa',
+        logo: 'https://placehold.co/200x80/e2e8f0/1e293b?text=Science+Africa',
+        partnershipType: 'industry',
+        description: 'Leading science organization in Africa',
+        website: '#',
+        since: '2021'
+    }
+];
+
+// Past Events
+export const mockPastEvents = mockEvents.filter(e => new Date(e.startAt) < new Date()).slice(0, 3);
+
+// Mock Stories
+export const mockStories = [
+    {
+        id: '1',
+        title: 'From Student to Published Researcher',
+        studentName: 'Alice Wanjiru',
+        achievement: 'Published researcher',
+        story: 'Through JKUBS, I gained hands-on lab experience and published my first paper on enzyme kinetics.',
+        photoUrl: 'https://i.pravatar.cc/150?img=5',
+        tags: ['Research', 'Publication'],
+        publishedAt: '2024-01-15T10:00:00Z',
+        featured: true
+    },
+    {
+        id: '2',
+        title: 'Building a Biotech Startup',
+        studentName: 'John Omondi',
+        achievement: 'Biotech startup founder',
+        story: 'The entrepreneurship track helped me launch my diagnostic startup, now serving 5 counties.',
+        photoUrl: 'https://i.pravatar.cc/150?img=12',
+        tags: ['Entrepreneurship', 'Impact'],
+        publishedAt: '2024-02-20T10:00:00Z',
+        featured: true
+    },
+    {
+        id: '3',
+        title: 'Research Internship at KEMRI',
+        studentName: 'Sarah Kimani',
+        achievement: 'Research internship',
+        story: 'JKUBS connected me with KEMRI where I interned and contributed to malaria research.',
+        photoUrl: 'https://i.pravatar.cc/150?img=9',
+        tags: ['Internship', 'Research'],
+        publishedAt: '2024-03-10T10:00:00Z'
+    }
+];
+
+// Track Modules - Sample modules for first 3 tracks
+export const mockTrackModules = [
+    // Molecular Biology Track modules
+    {
+        id: 'mod-1',
+        trackId: '1',
+        title: 'Introduction to Molecular Biology',
+        description: 'Fundamentals of molecular biology and the central dogma',
+        content: 'This module introduces you to the fascinating world of molecular biology...',
+        order: 1,
+        duration: '2 hours',
+        published: true,
+        createdAt: '2024-01-01T00:00:00Z'
+    },
+    {
+        id: 'mod-2',
+        trackId: '1',
+        title: 'DNA Structure and Replication',
+        description: 'Deep dive into DNA structure, replication mechanisms, and repair',
+        content: 'Understanding DNA structure is crucial for molecular biology...',
+        order: 2,
+        duration: '3 hours',
+        published: true,
+        createdAt: '2024-01-01T00:00:00Z'
+    },
+    {
+        id: 'mod-3',
+        trackId: '1',
+        title: 'Transcription and RNA Processing',
+        description: 'How genetic information flows from DNA to RNA',
+        content: 'Transcription is the first step in gene expression...',
+        order: 3,
+        duration: '2.5 hours',
+        published: true,
+        createdAt: '2024-01-01T00:00:00Z'
+    },
+    {
+        id: 'mod-4',
+        trackId: '1',
+        title: 'Translation and Protein Synthesis',
+        description: 'The process of making proteins from mRNA',
+        content: 'Translation converts genetic information into functional proteins...',
+        order: 4,
+        duration: '3 hours',
+        published: true,
+        createdAt: '2024-01-01T00:00:00Z'
+    },
+    {
+        id: 'mod-5',
+        trackId: '1',
+        title: 'Gene Regulation and Expression',
+        description: 'How cells control when and how much protein to make',
+        content: 'Gene regulation is essential for cellular differentiation...',
+        order: 5,
+        duration: '2 hours',
+        published: true,
+        createdAt: '2024-01-01T00:00:00Z'
+    },
+    // Biochemistry Core Track modules
+    {
+        id: 'mod-6',
+        trackId: '2',
+        title: 'Introduction to Biochemistry',
+        description: 'Overview of biomolecules and their importance',
+        content: 'Biochemistry is the study of chemical processes within living organisms...',
+        order: 1,
+        duration: '2 hours',
+        published: true,
+        createdAt: '2024-01-01T00:00:00Z'
+    },
+    {
+        id: 'mod-7',
+        trackId: '2',
+        title: 'Carbohydrates and Metabolism',
+        description: 'Structure and function of sugars, glycolysis, and energy production',
+        content: 'Carbohydrates are the primary energy source for cells...',
+        order: 2,
+        duration: '3 hours',
+        published: true,
+        createdAt: '2024-01-01T00:00:00Z'
+    },
+    {
+        id: 'mod-8',
+        trackId: '2',
+        title: 'Lipids and Membrane Biology',
+        description: 'Lipid structure, membrane composition, and signaling',
+        content: 'Lipids form biological membranes and serve as signaling molecules...',
+        order: 3,
+        duration: '2.5 hours',
+        published: true,
+        createdAt: '2024-01-01T00:00:00Z'
+    },
+    {
+        id: 'mod-9',
+        trackId: '2',
+        title: 'Proteins and Enzymes',
+        description: 'Protein structure, function, and enzymatic catalysis',
+        content: 'Proteins are the workhorses of the cell...',
+        order: 4,
+        duration: '3 hours',
+        published: true,
+        createdAt: '2024-01-01T00:00:00Z'
+    },
+    // Bioinformatics Track modules
+    {
+        id: 'mod-10',
+        trackId: '4',
+        title: 'Introduction to Bioinformatics',
+        description: 'Overview of computational biology and its applications',
+        content: 'Bioinformatics combines biology, computer science, and statistics...',
+        order: 1,
+        duration: '2 hours',
+        published: true,
+        createdAt: '2024-01-01T00:00:00Z'
+    },
+    {
+        id: 'mod-11',
+        trackId: '4',
+        title: 'Python for Bioinformatics',
+        description: 'Learn Python programming for biological data analysis',
+        content: 'Python is the most popular language in bioinformatics...',
+        order: 2,
+        duration: '4 hours',
+        published: true,
+        createdAt: '2024-01-01T00:00:00Z'
+    },
+    {
+        id: 'mod-12',
+        trackId: '4',
+        title: 'Sequence Analysis and Alignment',
+        description: 'DNA and protein sequence comparison techniques',
+        content: 'Sequence alignment is fundamental to bioinformatics...',
+        order: 3,
+        duration: '3 hours',
+        published: true,
+        createdAt: '2024-01-01T00:00:00Z'
+    }
+];
+
+// Track Enrollments - Sample enrollments for test users
+export const mockTrackEnrollments = [
+    {
+        id: 'enroll-1',
+        userId: '1', // Admin user
+        trackId: '1', // Molecular Biology
+        enrolledAt: '2024-01-15T10:00:00Z',
+        status: 'active' as const,
+        progress: 60,
+        completedModules: ['mod-1', 'mod-2', 'mod-3']
+    },
+    {
+        id: 'enroll-2',
+        userId: '1',
+        trackId: '4', // Bioinformatics
+        enrolledAt: '2024-02-01T10:00:00Z',
+        status: 'active' as const,
+        progress: 33,
+        completedModules: ['mod-10']
+    },
+    {
+        id: 'enroll-3',
+        userId: '2', // Member user
+        trackId: '2', // Biochemistry
+        enrolledAt: '2024-01-20T10:00:00Z',
+        status: 'active' as const,
+        progress: 50,
+        completedModules: ['mod-6', 'mod-7']
+    },
+    {
+        id: 'enroll-4',
+        userId: '3', // Track lead
+        trackId: '1',
+        enrolledAt: '2023-12-01T10:00:00Z',
+        status: 'completed' as const,
+        progress: 100,
+        completedModules: ['mod-1', 'mod-2', 'mod-3', 'mod-4', 'mod-5']
+    }
+];
+
+
